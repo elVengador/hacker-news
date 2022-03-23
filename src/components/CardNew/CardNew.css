@@ -18,15 +18,18 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-size: 14px;
 }
 
 .new--content .date {
     display: flex;
     margin-bottom: 6px;
+    font-size: 13px;
 }
 
 .new--content .date .icon {
     margin-right: 8px;
+    width: 16px;
 }
 
 .new--content p {
