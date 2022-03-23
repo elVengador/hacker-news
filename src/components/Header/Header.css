@@ -1,0 +1,28 @@
+.header {
+    box-shadow: 0 1px 4px 0 rgba(0, 21, 41, 0.12);
+    background-image: linear-gradient(to bottom, #ececec -32%, #fff 124%);
+    z-index: 10;
+}
+
+.header .wrapper {
+    max-width: 1140px;
+    height: 114px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+}
+
+.header--brand {
+    width: 208px;
+    height: 28px;
+    object-fit: contain;
+    font-family: Baskerville;
+    font-size: 28px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    color: #3b3b3b;
+
+}

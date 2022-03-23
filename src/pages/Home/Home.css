@@ -1,0 +1,41 @@
+.news .wrapper {
+    max-width: 1140px;
+    margin: auto;
+}
+
+.news .news--controlls {
+    display: flex;
+    justify-content: center;
+    padding: 73px 0px;
+}
+
+.news .news--controlls button {
+    width: 98px;
+    height: 31px;
+    padding: 3px 16px 0 17px;
+    border: solid 1px #d6d6d6;
+    border-radius: 2px;
+    font-family: Roboto;
+    font-size: 16px;
+    font-weight: 500;
+    color: #606060
+}
+
+.news .news--controlls .active {
+    border: solid 1px #1890ff;
+    color: #1890ff;
+}
+
+.news .news--type select {
+    padding: 5px 45px 5px 12px;
+    margin-bottom: 37px;
+    font-family: Roboto;
+    font-size: 14px;
+}
+
+.news .news--items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 40px;
+    row-gap: 30px;
+}
