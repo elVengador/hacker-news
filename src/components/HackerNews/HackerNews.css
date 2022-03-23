@@ -1,0 +1,12 @@
+.news--items {
+    display: grid;
+    grid-template-columns: 1fr;
+    column-gap: 40px;
+    row-gap: 30px;
+}
+
+@media screen and (min-width: 720px) {
+    .news--items {
+        grid-template-columns: 1fr 1fr;
+    }
+}

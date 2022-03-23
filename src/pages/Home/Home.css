@@ -1,6 +1,5 @@
 .news .wrapper {
-    max-width: 1140px;
-    margin: auto;
+    padding: 0px 10px;
 }
 
 .news .news--controlls {
@@ -33,9 +32,9 @@
     font-size: 14px;
 }
 
-.news .news--items {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 40px;
-    row-gap: 30px;
+@media screen and (min-width: 720px) {
+    .news .wrapper {
+        max-width: 1140px;
+        margin: auto;
+    }
 }

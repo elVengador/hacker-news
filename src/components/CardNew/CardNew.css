@@ -1,24 +1,24 @@
 .new {
-    max-width: 550px;
+    width: 100%;
     height: 90px;
-    /* margin: 18px 40px 30px 150px; */
     opacity: 0.8;
     border-radius: 6px;
     border: solid 1px #979797;
     background-color: #fff;
     display: flex;
     justify-content: space-between;
-    border: solid 1px #979797;
 }
 
 .new .new--content {
-    width: 482px;
+    width: calc(100% - 68px);
     /* height: 90px; */
     padding: 0px 16px 0px 26px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     font-size: 14px;
+    text-decoration: none;
+    color: #6b6b6b;
 }
 
 .new--content .date {
@@ -49,4 +49,12 @@
 .new .new--options button {
     border: none;
     background: none;
+}
+
+.new:hover .new--content {
+    opacity: 0.5;
+}
+
+.new:hover .new--options {
+    opacity: 0.5;
 }

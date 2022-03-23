@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CardNew } from '../../components/CardNew/CardNew'
+import { HackerNews } from '../../components/HackerNews/HackerNews'
 import { LanguageOption, New, News, NewsType } from '../../interfaces'
 
 import './Home.css'
@@ -108,20 +108,10 @@ export const Home = () => {
                                 >{cur.name}</option>)}
                             </select>
                         </div>
-                        <div className="news--items">
-                            {!hackerNews && <p>No data, select other option</p>}
-                            {hackerNews && hackerNewsFiltered.map((cur) => <CardNew key={cur.objectID} hackerNew={cur} />)}
-                        </div>
+                        <HackerNews hackerNews={hackerNewsFiltered} />
                     </>
                 }
-                {
-                    newsType === 'FAVES' &&
-                    <div className="news--items">
-                        {!hackerNews && <p>No data, select other option</p>}
-                        {hackerNews && hackerNewsFiltered.map((cur) => <CardNew key={cur.objectID} hackerNew={cur} />)}
-                    </div>
-
-                }
+                {newsType === 'FAVES' && <HackerNews hackerNews={hackerNewsFiltered} />}
             </div>
         </main>
     )

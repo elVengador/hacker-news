@@ -5,9 +5,8 @@
 }
 
 .header .wrapper {
-    max-width: 1140px;
+    padding: 0px 10px;
     height: 114px;
-    margin: auto;
     display: flex;
     align-items: center;
 }
@@ -25,4 +24,11 @@
     letter-spacing: normal;
     color: #3b3b3b;
 
+}
+
+@media screen and (min-width: 720px) {
+    .header .wrapper {
+        max-width: 1140px;
+        margin: auto;
+    }
 }

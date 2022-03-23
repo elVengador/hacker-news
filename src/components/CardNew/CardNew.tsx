@@ -10,13 +10,13 @@ interface CardNewProps { hackerNew: New }
 export const CardNew = ({ hackerNew }: CardNewProps) => {
     return (
         <article className='new'>
-            <div className="new--content">
+            <a className="new--content" href={hackerNew.story_url} target="_blank" rel="noopener noreferrer">
                 <time className='date'>
                     <img className='icon' src="src/assets/iconmonstr-time-2_2.svg" alt="" />
                     {format(hackerNew.created_at)} by {hackerNew.author}
                 </time>
                 <p >{hackerNew.story_title}</p>
-            </div>
+            </a>
 
             <div className="new--options">
                 <button>
