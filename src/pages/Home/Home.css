@@ -1,3 +1,7 @@
+.news {
+    min-height: calc(100vh - 114px);
+}
+
 .news .wrapper {
     padding: 0px 10px;
 }

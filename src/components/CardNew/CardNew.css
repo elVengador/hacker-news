@@ -49,6 +49,7 @@
 .new .new--options button {
     border: none;
     background: none;
+    cursor: pointer;
 }
 
 .new:hover .new--content {
