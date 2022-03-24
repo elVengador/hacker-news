@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import './FavesHackerNews.css'
-import { New } from '../../interfaces'
 import { CardNew } from '../CardNew/CardNew'
 import { useFavesHackerNews } from '../../hooks/useFavesHackerNews'
 

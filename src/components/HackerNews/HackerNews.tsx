@@ -5,16 +5,17 @@ import { New, News } from '../../interfaces'
 import { CardNew } from '../CardNew/CardNew'
 import { LANGUAGE_OPTIONS, URI } from './model'
 import { useFavesHackerNews } from '../../hooks/useFavesHackerNews'
+import { useFetch } from '../../hooks/useFetch'
+import { Select } from '../Select/Select'
 
 export const HackerNews = () => {
 
     const [hackerNews, setHackerNews] = useState<News | null>(null)
     const [languageFiltered, setLanguageFiltered] = useState(localStorage.getItem('languageFiltered') || '')
-    const [page, setPage] = useState(9)
+    const [page, setPage] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-
+    const { GET } = useFetch()
     const { favesHackerNews, saveFaveHackerNew, deleteFaveHackerNew } = useFavesHackerNews()
-
     const observer = useRef<IntersectionObserver | null>(null)
     const visor = useRef<HTMLDivElement>(null)
 
@@ -22,7 +23,6 @@ export const HackerNews = () => {
         let newURI = new URL(URI)
         if (languageFiltered) { newURI.searchParams.append('query', languageFiltered) }
         if (page) { newURI.searchParams.append('page', page.toString()) }
-        console.log('NEW URI:', newURI.toString());
         getHackerNews(newURI.toString())
     }, [languageFiltered, page])
 
@@ -35,7 +35,6 @@ export const HackerNews = () => {
         if (!isLoading) {
             observer.current = new IntersectionObserver((entries) => {
                 const [entry] = entries
-                console.log('is intersecting', entry.isIntersecting);
                 if (entry.isIntersecting) { setPage(page => page + 1) }
             })
             observer.current.observe(visor.current)
@@ -50,7 +49,7 @@ export const HackerNews = () => {
     useEffect(() => {
         if (!hackerNews) { return }
 
-        const hackerNewsFiltered = filterData(hackerNews.hits)
+        const hackerNewsFiltered = filterValidNews(hackerNews.hits)
         const hackerNewsMapped: New[] = mappedNews(hackerNewsFiltered)
         const dataProcess = { ...hackerNews, hits: hackerNewsMapped }
         setHackerNews(dataProcess)
@@ -64,7 +63,7 @@ export const HackerNews = () => {
             hackerNew.story_url
     }
 
-    const filterData = (hackerNews: New[]) => {
+    const filterValidNews = (hackerNews: New[]) => {
         return hackerNews.filter(hackerNewHasValidData)
     }
 
@@ -85,16 +84,10 @@ export const HackerNews = () => {
     }
 
     const getHackerNews = async (url: string) => {
-
         try {
             setIsLoading(true)
-            const res = await fetch(url)
-            if (res.status !== 200) { throw Error(`server error:${res.status}`) }
-
-            const data: News = await res.json()
-            if (!data) { return }
-
-            const hackerNewsFiltered = filterData(data.hits)
+            const data = await GET<News>(url)
+            const hackerNewsFiltered = filterValidNews(data.hits)
             const hackerNewsMapped: New[] = mappedNews(hackerNewsFiltered)
             const previousHackerNews = hackerNews?.hits || []
             const dataProcess = { ...data, hits: [...previousHackerNews, ...hackerNewsMapped] }
@@ -106,10 +99,10 @@ export const HackerNews = () => {
         }
     }
 
-    const onChangeNewsType = (e: any) => {
-        const currentFilteredLanguage = e.currentTarget.value
-        localStorage.setItem('languageFiltered', currentFilteredLanguage)
-        setLanguageFiltered(currentFilteredLanguage)
+    const onChangeNewsType = (languageSelected: string) => {
+        // const currentFilteredLanguage = e.currentTarget.value
+        localStorage.setItem('languageFiltered', languageSelected)
+        setLanguageFiltered(languageSelected)
         setHackerNews(null)
         setPage(0)
     }
@@ -117,34 +110,24 @@ export const HackerNews = () => {
     return (
         <>
             <div className="news--type">
-                <select
-                    name="language"
-                    defaultValue={languageFiltered}
-                    onChange={onChangeNewsType}>
-                    <option value={"default"} disabled >Select your news</option>
-                    {LANGUAGE_OPTIONS.map((cur) => <option
-                        value={cur.value}
-                        key={cur.id}
-                    >{cur.name}</option>)}
-                </select>
+                <Select
+                    options={LANGUAGE_OPTIONS}
+                    optionSelected={languageFiltered}
+                    setOptionsSelected={onChangeNewsType}
+                />
             </div>
             <div className="news--items">
-                {!hackerNews && <p>No data, select other option</p>}
                 {hackerNews && <>
-                    {hackerNews.hits.map((cur, idx) => {
-
-                        return <CardNew
-                            key={`${cur.objectID}${idx}`}
-                            hackerNew={cur}
-                            onSaveFave={() => saveFaveHackerNew(cur)}
-                            onDeleteFave={() => deleteFaveHackerNew(cur.objectID)}
-                        />
-                    })}
-                    <div id="visor" ref={visor} >
-                        {isLoading ? 'Loading...' : ''}
-                    </div>
-                </>
-                }
+                    {hackerNews.hits.map((cur, idx) => <CardNew
+                        key={`${cur.objectID}${idx}`}
+                        hackerNew={cur}
+                        onSaveFave={() => saveFaveHackerNew(cur)}
+                        onDeleteFave={() => deleteFaveHackerNew(cur.objectID)}
+                    />)}
+                    <div id="visor" ref={visor} ></div>
+                </>}
+                {isLoading && <p>Loading...</p>}
+                {!hackerNews && !isLoading && <p>No data, select other option</p>}
             </div>
         </>
     )

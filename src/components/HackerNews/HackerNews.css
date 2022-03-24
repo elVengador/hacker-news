@@ -1,9 +1,21 @@
+.news--type option.icon {
+    width: 20px;
+    height: 20px;
+    border: solid;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: royalblue;
+}
+
 .news--items {
+    padding: 38px 0px;
     display: grid;
     grid-template-columns: 1fr;
     column-gap: 40px;
     row-gap: 30px;
 }
+
 
 @media screen and (min-width: 720px) {
     .news--items {
