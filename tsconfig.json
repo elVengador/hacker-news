@@ -20,11 +20,12 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "types": [
-      "vite-plugin-svgr/client"
+      "jest",
     ]
   },
   "include": [
-    "src"
+    "src",
+    "./jest-setup.ts"
   ],
   "references": [
     {
