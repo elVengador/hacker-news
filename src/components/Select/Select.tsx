@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import "./Select.css"
 
 export interface Option {
@@ -17,50 +17,52 @@ export interface SelectProps {
 export const Select = ({ options, optionSelected, setOptionsSelected }: SelectProps) => {
 
     const [showOptions, setShowOptions] = useState(false)
-    const foundOption = useRef<Option>(null)
 
-    // useEffect(() => {
-    //     foundOption.current = options.find(cur => cur.value === optionSelected)
-    //     if (tt) {
+    const findSelectedOption = () => options.find(cur => cur.value === optionSelected)
+    const foundOption = useMemo(findSelectedOption, [options, optionSelected])
+    const selectRef = useRef<HTMLDivElement>(null)
 
-    //     }
-    //     // foundOption.current = options.find(cur => cur.value === optionSelected)
-    // }, [optionSelected])
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (selectRef.current
+                && !selectRef.current.contains(event.target as HTMLElement)
+                && showOptions) {
+                console.log('>> close select')
+                setShowOptions(false)
+            }
+        };
+
+        document.addEventListener('click', handleClickOutside, true);
+        return () => document.removeEventListener('click', handleClickOutside, true);
+
+    }, [showOptions])
 
     const onSelectOption = (languageSelected: string) => {
         setOptionsSelected(languageSelected)
         setShowOptions(false)
     }
 
-    const Icon = (icon: string) => <div className='icon--option' style={{ backgroundImage: `url(${icon})` }}></div>
-
-    const buildOptionSelected = (optionSelected: string) => {
-        const foundOptions = options.find(cur => cur.value === optionSelected)
-
-        if (foundOptions) {
-            return <>
-                <div className='name'>
-                    <span className='icon--option'>
-                        {foundOptions.icon && Icon(foundOptions.icon)}
-                    </span>
-                    {foundOptions.name}
-                </div>
-                <div className='icon' style={{ backgroundImage: `url(src/assets/arrow.svg)` }}></div>
-            </>
-        }
-        return <>
-            <div>Select your news</div>
-            <div className='icon' style={{ backgroundImage: `url(src/assets/arrow.svg)` }}></div>
-        </>
-    }
+    const Icon = (icon: string) => <div
+        className='icon--option'
+        style={{ backgroundImage: `url(${icon})` }}>
+    </div>
 
     return (
-        <div className='select'>
+        <div className='select' ref={selectRef}>
             <div
                 className='select--value'
                 onClick={() => setShowOptions(true)}
             >
-                {buildOptionSelected(optionSelected)}
+                <div className='name'>
+                    {foundOption && <div className='name'>
+                        <span className='icon--option'>
+                            {foundOption.icon && Icon(foundOption.icon)}
+                        </span>
+                        {foundOption.name}
+                    </div>}
+                    {!foundOption && <div>Select your news</div>}
+                </div>
+                <div className='icon' style={{ backgroundImage: `url(src/assets/arrow.svg)` }}></div>
             </div>
             {showOptions && <div className="select--options">
                 {
@@ -72,8 +74,7 @@ export const Select = ({ options, optionSelected, setOptionsSelected }: SelectPr
                         {cur.icon && Icon(cur.icon)}
                         <div>{cur.name}</div>
 
-                    </div>
-                    )
+                    </div>)
                 }
             </div>}
         </div>
