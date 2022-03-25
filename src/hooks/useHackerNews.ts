@@ -17,7 +17,6 @@ export const useHackerNews = ({ favesHackerNews }: { favesHackerNews: New[] }) =
         const hackerNewsMapped: New[] = mappedNews(hackerNewsFiltered)
         const dataProcess = { ...hackerNews, hits: hackerNewsMapped }
         setHackerNews(dataProcess)
-        console.log('change faves')
     }, [favesHackerNews])
 
     const filterValidNews = (hackerNews: New[]) => {
@@ -49,7 +48,6 @@ export const useHackerNews = ({ favesHackerNews }: { favesHackerNews: New[] }) =
         try {
             setIsLoading(true)
             const data = await GET<News>(url)
-            console.log('data:', data);
             const hackerNewsFiltered = filterValidNews(data.hits)
             const hackerNewsMapped: New[] = mappedNews(hackerNewsFiltered)
             const previousHackerNews = hackerNews?.hits || []
@@ -57,7 +55,7 @@ export const useHackerNews = ({ favesHackerNews }: { favesHackerNews: New[] }) =
             setHackerNews(dataProcess)
             setIsLoading(false)
         } catch (err) {
-            console.log('ERR', err);
+            console.error('ERR', err);
             setIsLoading(false)
         }
     }

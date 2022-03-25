@@ -27,7 +27,6 @@ export const Select = ({ options, optionSelected, setOptionsSelected }: SelectPr
             if (selectRef.current
                 && !selectRef.current.contains(event.target as HTMLElement)
                 && showOptions) {
-                console.log('>> close select')
                 setShowOptions(false)
             }
         };
@@ -62,7 +61,7 @@ export const Select = ({ options, optionSelected, setOptionsSelected }: SelectPr
                     </div>}
                     {!foundOption && <div>Select your news</div>}
                 </div>
-                <div className='icon' style={{ backgroundImage: `url(src/assets/arrow.svg)` }}></div>
+                <div className='icon' style={{ backgroundImage: `url(arrow.svg)` }}></div>
             </div>
             {showOptions && <div className="select--options">
                 {

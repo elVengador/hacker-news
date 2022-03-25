@@ -21,7 +21,8 @@
     font-family: Roboto;
     font-size: 16px;
     font-weight: 500;
-    color: #606060
+    color: #606060;
+    cursor: pointer;
 }
 
 .news .news--controlls .active {
